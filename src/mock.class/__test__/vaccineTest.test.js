@@ -18,7 +18,9 @@ describe("inject", () => {
 
     vacTest.inject();
 
-    expect(vacTest.recipient.acceptInjection).toHaveBeenCalledWith(vacTest.vaccine);
+    expect(vacTest.recipient.acceptInjection).toHaveBeenCalledWith(
+      vacTest.vaccine
+    );
   });
 });
 
