@@ -1,27 +1,43 @@
 import VaccineTest from "../vaccineTest";
 import Recipient from "../recipient";
-import Covid19Vaccine from "../covid19Vaccine";
 
 jest.mock("../recipient", () => {
-  // mock class实现
+  return jest.fn().mockImplementation(() => ({
+    acceptInjection: jest.fn(),
+    getHasAntibodies: jest.fn(),
+  }));
 });
 
 beforeEach(() => {
-  // clear mock here
+  Recipient.mockClear();
 });
 
 describe("inject", () => {
   test("should recipient accept injection with vaccine", () => {
-    // TODO 14: add test here
+    const vacTest = new VaccineTest();
+
+    vacTest.inject();
+
+    expect(vacTest.recipient.acceptInjection).toHaveBeenCalledWith(vacTest.vaccine);
   });
 });
 
 describe("test", () => {
   test("should get Success if recipient has antibodies", () => {
-    // TODO 15: add test here
+    const vacTest = new VaccineTest();
+    vacTest.recipient.getHasAntibodies.mockImplementation(() => true);
+
+    vacTest.inject();
+
+    expect(vacTest.test()).toEqual("Vaccine Test Success");
   });
 
   test("should get Failed if recipient has no antibodies", () => {
-    // TODO 16: add test here
+    const vacTest = new VaccineTest();
+    vacTest.recipient.getHasAntibodies.mockImplementation(() => false);
+
+    vacTest.inject();
+
+    expect(vacTest.test()).toEqual("Vaccine Test Failed");
   });
 });
